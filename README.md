@@ -40,7 +40,7 @@ python cli.py [COMMAND]
 
 ### Commands
 - `init` &mdash; Initialise a new encrypted vault
-- `add` &mdash; Add a new password entry
+- `add` &mdash; Add a new password entry (choose to manually enter a password or generate one with customisable options)
 - `get` &mdash; Retrieve and decrypt a password entry
 - `list` &mdash; List all stored service names
 - `update` &mdash; Update an existing entry
@@ -50,6 +50,13 @@ python cli.py [COMMAND]
 - `import` &mdash; Import an encrypted vault file (replaces current vault)
 
 Each command will prompt for the master password as needed. All sensitive data is cleared from memory after use.
+
+### Adding a Password Entry
+When you use the `add` command, you can now choose to either:
+- Manually enter a password (as before), or
+- Generate a secure password with your own custom options (length, inclusion of letters, numbers, and symbols).
+
+If you choose to generate, you will be prompted for your preferences, and the generated password will be displayed for you to copy and save.
 
 ### Generating Passwords
 You can generate a strong password with custom requirements:

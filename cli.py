@@ -38,7 +38,24 @@ def add():
     from getpass import getpass
     service = click.prompt("Service name", type=str)
     username = click.prompt("Username", type=str)
-    password = getpass("Password: ")
+
+    # Ask user if they want to generate a password or enter manually
+    use_generate = click.confirm("Do you want to generate a password?", default=False)
+    if use_generate:
+        length = click.prompt("Password length", type=int, default=16)
+        use_letters = click.confirm("Include letters?", default=True)
+        use_numbers = click.confirm("Include numbers?", default=True)
+        use_symbols = click.confirm("Include symbols?", default=True)
+        try:
+            password = generate_password(length, use_letters, use_numbers, use_symbols)
+            click.echo(f"Generated password: {password}")
+            click.echo("(Make sure to copy/save this password!)")
+        except ValueError as e:
+            click.echo(f"Error: {e}")
+            return
+    else:
+        password = getpass("Password: ")
+
     notes = click.prompt("Notes", type=str, default="", show_default=False)
     master_password = getpass("Master password to unlock vault: ")
     try:
