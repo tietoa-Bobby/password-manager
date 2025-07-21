@@ -35,6 +35,9 @@ def add():
     """
     Add a new password entry to the vault.
     """
+    if not os.path.exists(Vault().path):
+        click.echo("No vault file found. Please run 'init' or 'import' first.")
+        return
     from getpass import getpass
     service = click.prompt("Service name", type=str)
     username = click.prompt("Username", type=str)
@@ -72,6 +75,9 @@ def get():
     """
     Retrieve and decrypt a password entry by service name.
     """
+    if not os.path.exists(Vault().path):
+        click.echo("No vault file found. Please run 'init' or 'import' first.")
+        return
     from getpass import getpass
     service = click.prompt("Service name", type=str)
     master_password = getpass("Master password to unlock vault: ")
@@ -93,6 +99,9 @@ def list():
     """
     List all stored service names in the vault (no passwords shown).
     """
+    if not os.path.exists(Vault().path):
+        click.echo("No vault file found. Please run 'init' or 'import' first.")
+        return
     from getpass import getpass
     master_password = getpass("Master password to unlock vault: ")
     try:
@@ -114,6 +123,9 @@ def update():
     """
     Update an existing password entry in the vault.
     """
+    if not os.path.exists(Vault().path):
+        click.echo("No vault file found. Please run 'init' or 'import' first.")
+        return
     from getpass import getpass
     service = click.prompt("Service name to update", type=str)
     master_password = getpass("Master password to unlock vault: ")
@@ -143,6 +155,9 @@ def delete():
     """
     Delete an existing password entry from the vault by service name.
     """
+    if not os.path.exists(Vault().path):
+        click.echo("No vault file found. Please run 'init' or 'import' first.")
+        return
     from getpass import getpass
     service = click.prompt("Service name to delete", type=str)
     master_password = getpass("Master password to unlock vault: ")
@@ -164,11 +179,11 @@ def export():
     """
     Export the entire encrypted vault as a single file.
     """
-    import shutil
-    export_path = click.prompt("Export file path", type=str)
     if not os.path.exists(Vault().path):
         click.echo("No vault file found to export.")
         return
+    import shutil
+    export_path = click.prompt("Export file path", type=str)
     if os.path.exists(export_path):
         overwrite = click.confirm(f"File '{export_path}' already exists. Overwrite?", default=False)
         if not overwrite:

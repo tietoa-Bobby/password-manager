@@ -38,6 +38,8 @@ Run the CLI using Python:
 python cli.py [COMMAND]
 ```
 
+> **Note:** The following commands require the encrypted vault file to already exist: `add`, `get`, `list`, `update`, `delete`, and `export`. If the vault file is missing, you will see an error message instructing you to run `init` or `import` first. Only `init`, `import`, and `generate` can be used without an existing vault file.
+
 ### Commands
 - `init` &mdash; Initialise a new encrypted vault
 - `add` &mdash; Add a new password entry (choose to manually enter a password or generate one with customisable options)
