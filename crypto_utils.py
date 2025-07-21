@@ -6,6 +6,8 @@ import os
 from typing import Tuple
 from argon2.low_level import hash_secret_raw, Type
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+import string
+import secrets
 
 # Constants for Argon2 parameters
 ARGON2_TIME_COST = 4
@@ -13,6 +15,34 @@ ARGON2_MEMORY_COST = 2 ** 16  # 64 MiB
 ARGON2_PARALLELISM = 2
 ARGON2_HASH_LEN = 32
 ARGON2_SALT_LEN = 16
+
+
+def generate_password(length: int, use_letters: bool, use_numbers: bool, use_symbols: bool) -> str:
+    """
+    Generate a secure random password with specified criteria.
+    Args:
+        length (int): Desired password length.
+        use_letters (bool): Include letters (a-z, A-Z).
+        use_numbers (bool): Include digits (0-9).
+        use_symbols (bool): Include special symbols.
+    Returns:
+        str: A securely generated password.
+    Raises:
+        ValueError: If no character types are selected.
+    """
+    character_set = ""
+    if use_letters:
+        character_set += string.ascii_letters
+    if use_numbers:
+        character_set += string.digits
+    if use_symbols:
+        character_set += string.punctuation
+
+    if not character_set:
+        raise ValueError("At least one character type must be selected.")
+
+    password = ''.join(secrets.choice(character_set) for _ in range(length))
+    return password
 
 
 def derive_key(password: str, salt: bytes) -> bytes:

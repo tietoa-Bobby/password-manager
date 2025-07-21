@@ -5,6 +5,7 @@ Click-based CLI for the password manager. Implements 'init' command.
 import click
 from getpass import getpass
 from vault import Vault, VaultError
+from crypto_utils import generate_password
 import os
 
 @click.group()
@@ -24,7 +25,7 @@ def init():
         return
     try:
         vault = Vault()
-        vault.initialize(password)
+        vault.initialise(password)
         click.echo("Vault initialised and encrypted successfully.")
     except VaultError as e:
         click.echo(f"Error: {e}")
@@ -182,6 +183,19 @@ def import_():
         click.echo(f"Vault imported from '{import_path}'.")
     except Exception as e:
         click.echo(f"Error importing vault: {e}")
+
+@cli.command()
+@click.option('--length', default=16, help='Length of the password.')
+@click.option('--no-letters', 'use_letters', flag_value=False, default=True, help="Don't include letters.")
+@click.option('--no-numbers', 'use_numbers', flag_value=False, default=True, help="Don't include numbers.")
+@click.option('--no-symbols', 'use_symbols', flag_value=False, default=True, help="Don't include symbols.")
+def generate(length, use_letters, use_numbers, use_symbols):
+    """Generate a secure password."""
+    try:
+        password = generate_password(length, use_letters, use_numbers, use_symbols)
+        click.echo(f"Generated password: {password}")
+    except ValueError as e:
+        click.echo(f"Error: {e}")
 
 # Alias for click: 'import' is a reserved word in Python
 cli.add_command(import_, name="import")

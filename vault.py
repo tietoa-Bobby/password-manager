@@ -23,16 +23,16 @@ class Vault:
         self._salt: Optional[bytes] = None
         self._locked = True
 
-    def initialize(self, password: str):
+    def initialise(self, password: str):
         """
-        Initialize a new vault with a master password.
+        Initialise a new vault with a master password.
         Args:
             password (str): Master password.
         Raises:
             VaultError: If vault already exists.
         """
         if os.path.exists(self.path):
-            raise VaultError("Vault already exists. Delete it first if you want to re-initialize.")
+            raise VaultError("Vault already exists. Delete it first if you want to re-initialise.")
         self._salt = generate_salt()
         self._key = derive_key(password, self._salt)
         self._data = {}
@@ -82,7 +82,7 @@ class Vault:
         Encrypt and write the vault data to disk.
         """
         if self._key is None or self._salt is None or self._data is None:
-            raise VaultError("Vault is not unlocked or initialized.")
+            raise VaultError("Vault is not unlocked or initialised.")
         plaintext = json.dumps(self._data).encode("utf-8")
         nonce, ciphertext = encrypt(plaintext, self._key)
         enc = {

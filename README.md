@@ -10,6 +10,7 @@ A secure, local, command-line password manager written in Python. All data is en
 - Initialise a new encrypted password vault with a master password
 - Add, retrieve, update, and delete password entries (service, username, password, notes)
 - List all stored service names (no passwords shown)
+- Generate secure, customisable passwords
 - Export and import the entire encrypted vault as a single file
 - Vault automatically locks after each operation
 - All cryptographic operations use modern, secure standards
@@ -44,10 +45,21 @@ python cli.py [COMMAND]
 - `list` &mdash; List all stored service names
 - `update` &mdash; Update an existing entry
 - `delete` &mdash; Delete an entry by service name
+- `generate` &mdash; Generate a new secure password
 - `export` &mdash; Export the encrypted vault file
 - `import` &mdash; Import an encrypted vault file (replaces current vault)
 
 Each command will prompt for the master password as needed. All sensitive data is cleared from memory after use.
+
+### Generating Passwords
+You can generate a strong password with custom requirements:
+```sh
+python cli.py generate --length 20 --no-symbols
+```
+- `--length`: Set password length (default: 16)
+- `--no-letters`: Exclude letters
+- `--no-numbers`: Exclude numbers
+- `--no-symbols`: Exclude symbols
 
 ## Example
 ```sh
@@ -55,6 +67,7 @@ python cli.py init
 python cli.py add
 python cli.py list
 python cli.py get
+python cli.py generate
 python cli.py update
 python cli.py delete
 python cli.py export
