@@ -1,6 +1,6 @@
 """
 vault.py
-Vault storage and initialization logic for the password manager.
+Vault storage and initialisation logic for the password manager.
 """
 import os
 import json
